@@ -28,39 +28,29 @@ public class Main implements Runnable {
 
     public void run() {
         printStream.print("Mars Rover\n");
-        InputParser inputParser = new InputParser();
+        InputParser parser = new InputParser();
         String coordinates = scanner.nextLine();
-        Pair<Integer, Integer> plateauCoordinates = inputParser.parsePlateauCoordinates(coordinates);
+        Pair<Integer, Integer> size = parser.parsePlateauCoordinates(coordinates);
 
-        GameService gameService = new GameService(
-                new Plateau(plateauCoordinates.getKey(), plateauCoordinates.getValue()),
-                new MarsRover());
+        Plateau plateau = new Plateau(size.getKey(), size.getValue());
 
-        String init = scanner.nextLine();
-        gameService.place(inputParser.placeRover(init));
-        printStream.print("\n");
+        GameService rover1 = new GameService(plateau, new MarsRover());
+        GameService rover2 = new GameService(plateau, new MarsRover());
+
+        String rover1Position = scanner.nextLine();
+        String rover1Commands = scanner.nextLine().toUpperCase();
+        String rover2Position = scanner.nextLine();
+        String rover2Commands = scanner.nextLine().toUpperCase();
+
         try {
-            boolean keepRunning = true;
-            while (keepRunning) {
-                String inputString = scanner.nextLine().toUpperCase();
-
-                if ("EXIT".equals(inputString)) {
-                    keepRunning = false;
-                } else {
-                    try {
-                        List<Command> commands = inputParser.parse(inputString);
-                        String outputVal = gameService.eval(commands);
-                        printStream.println(outputVal);
-                        printStream.println(gameService.report());
-                    } catch (IllegalArgumentException e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                printStream.println();
-            }
+            rover1.place(parser.placeRover(rover1Position));
+            rover2.place(parser.placeRover(rover2Position));
+            rover1.eval(parser.parse(rover1Commands));
+            rover2.eval(parser.parse(rover2Commands));
+            printStream.println(rover1.report());
+            printStream.println(rover2.report());
         } catch (IllegalArgumentException e) {
             printStream.println(e.getMessage());
         }
     }
-
 }

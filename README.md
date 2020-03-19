@@ -18,19 +18,14 @@ NASA Mars Rover
     
   ````
 Mars Rover
-Enter upper right co-ordinates of Plateau 
 5 5
-Enter a command to place rover, Valid commands are:
-X Y F (Where F can ne N|S|E|W)
-1 1 N
- M,
- L,
- R 
-or EXIT
-MRMLMLM
-
-1, 3, W
-
+1 2 N
+LMLMLMLMM
+3 3 E
+MMRMMRMRRM
+1, 3, N
+5, 1, E
+Disconnected from the target VM, address: '127.0.0.1:51184', transport: 'socket'
  ````
    
    
